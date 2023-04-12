@@ -9,8 +9,8 @@ class Pentagon : public Shape {
 
     public:
         Pentagon(int side) noexcept(true);
-        virtual double getArea() noexcept(true) override;
-        virtual double getPerimeter() noexcept(true) override;
+        double getArea() noexcept(true) override;
+        double getPerimeter() noexcept(true) override;
         std::string getName() noexcept(true) override;
 };
 
