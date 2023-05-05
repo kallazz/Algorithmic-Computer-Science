@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <top>
+      <AnchorPane prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #666;" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="circleButton" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleCircleButtonClick" text="Circle">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="rectangleButton" layoutX="76.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleRectangleButtonClick" text="Rectangle">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="hexagonButton" layoutX="160.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleHexagonButtonClick" text="Hexagon">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button disable="true" layoutX="379.0" layoutY="18.0" mnemonicParsing="false" text="Reset" />
+            <Button layoutX="549.0" layoutY="18.0" mnemonicParsing="false" text="Info" AnchorPane.rightAnchor="14.0">
+               <tooltip>
+                  <Tooltip text="Name: Drawing App &#10;Author: Michał Kallas&#10;Purpose: Getting a good grade" />
+               </tooltip></Button>
+            <ColorPicker layoutX="239.0" layoutY="18.0" />
+         </children>
+      </AnchorPane>
+   </top>
+   <bottom>
+      <AnchorPane prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #666;" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="463.0" layoutY="18.0" mnemonicParsing="false" text="Zapisz" AnchorPane.rightAnchor="87.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button layoutX="528.0" layoutY="18.0" mnemonicParsing="false" text="Wczytaj" AnchorPane.rightAnchor="14.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Label fx:id="instructionLabel" layoutX="14.0" layoutY="22.0" text="Choose what to draw" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+   </bottom>
+   <center>
+      <Pane fx:id="drawingArea" onMouseClicked="#handleDrawingAreaClick" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
