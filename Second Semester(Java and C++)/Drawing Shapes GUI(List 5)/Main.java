@@ -9,7 +9,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            new GUI(stage);
+            new InitGUI(stage);
         }
         catch (final Exception e) {
             System.out.println("FXML loading failed!");

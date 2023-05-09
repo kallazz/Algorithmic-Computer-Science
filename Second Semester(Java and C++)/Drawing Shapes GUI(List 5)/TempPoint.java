@@ -11,17 +11,28 @@ public class TempPoint {
         Circle circle = new Circle();
         circle.setCenterX(x);
         circle.setCenterY(y);
-        circle.setRadius(1f);
+        circle.setRadius(2f);
         pane.getChildren().add(circle);
-        circle.setId("circle");
+        circle.setId("tempCircle");
     }
 
     static public void remove(Pane pane) {
-        for (Node node : pane.getChildren()) {
-            if (node.getId() != null && node.getId().equals("circle")) {
+        for (int i = 0; i < pane.getChildren().size(); i++) {
+            Node node = pane.getChildren().get(i);
+            if (node.getId() != null && node.getId().equals("tempCircle")) {
                 pane.getChildren().remove(node);
-                return;
+                i--;
             }
         }
+    }
+
+    static public boolean isHit(Pane pane, double mouseX, double mouseY) {
+        for (int i = 0; i < pane.getChildren().size(); i++) {
+            Node node = pane.getChildren().get(i);
+            if (node.getId() != null && node.getId().equals("tempCircle") && node.contains(mouseX, mouseY)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
