@@ -113,6 +113,48 @@ public class Controller {
         MyMouseEvents.enableMouseEvents(drawingArea);
     }
 
+    /**
+     * @brief this method handles mouse click events on the drawingArea. 
+     * When user clicks somewhere where there is no shape, the current activeShape is set to not active. 
+     * For the left click it adds another point to the currently created shape,
+     * if the user hasn’t chosen another point in the same location before. 
+     * For the right click it sets color of the currently active shape to the value from colorPicker
+     * 
+     * @param event the mouse click event on drawingArea
+     */
+    @FXML
+    private void handleDrawingAreaClick(MouseEvent event) {
+        if (event.getButton() == MouseButton.PRIMARY) {
+            if (shape != null) {
+                if (TempPoint.isHit(drawingArea, event.getX(), event.getY())) {
+                    Alert a = new Alert(AlertType.WARNING);
+                    a.setContentText("Choose another point!");
+                    a.show();
+                } 
+                else {
+                    shape.onClick(event.getX(), event.getY(), drawingArea, instructionLabel);
+                }
+            }
+
+            if (hit == true) {
+                hit = false;
+            } else {
+                MyMouseEvents.setActiveColor(activeShape, false);
+                MyMouseEvents.rotateAndResizeShapeCancel(drawingArea);
+            }
+        }
+        else if (event.getButton() == MouseButton.SECONDARY) {
+            if (activeShape != null) activeShape.setFill(colorPicker.getValue());
+
+            if (hit == true) {
+                hit = false;
+            } else {
+                MyMouseEvents.setActiveColor(activeShape, false);
+                MyMouseEvents.rotateAndResizeShapeCancel(drawingArea);
+            }
+        }
+    }
+
      /**
      * @brief this method handles clicking the saveButton, 
      * serializing and saving all the shapes created by user to a file called “savedObjects.ser”
@@ -164,7 +206,6 @@ public class Controller {
                 
             while (f.available() > 0) {
                 Object object = o.readObject();
-                System.out.println(o);
                 if (object instanceof MyCircle) {
                     ((MyCircle) object).setProperties();
                     drawingArea.getChildren().add((MyCircle) object);
@@ -190,48 +231,6 @@ public class Controller {
         }
         catch (final ClassNotFoundException e) {
             System.out.println("Class not found!");
-        }
-    }
-
-     /**
-     * @brief this method handles mouse click events on the drawingArea. 
-     * When user clicks somewhere where there is no shape, the current activeShape is set to not active. 
-     * For the left click it adds another point to the currently created shape,
-     * if the user hasn’t chosen another point in the same location before. 
-     * For the right click it sets color of the currently active shape to the value from colorPicker
-     * 
-     * @param event the mouse click event on drawingArea
-     */
-    @FXML
-    private void handleDrawingAreaClick(MouseEvent event) {
-        if (event.getButton() == MouseButton.PRIMARY) {
-            if (shape != null) {
-                if (TempPoint.isHit(drawingArea, event.getX(), event.getY())) {
-                    Alert a = new Alert(AlertType.WARNING);
-                    a.setContentText("Choose another point!");
-                    a.show();
-                } 
-                else {
-                    shape.onClick(event.getX(), event.getY(), drawingArea, instructionLabel);
-                }
-            }
-
-            if (hit == true) {
-                hit = false;
-            } else {
-                MyMouseEvents.setActiveColor(activeShape, false);
-                MyMouseEvents.rotateAndResizeShapeCancel(drawingArea);
-            }
-        }
-        else if (event.getButton() == MouseButton.SECONDARY) {
-            if (activeShape != null) activeShape.setFill(colorPicker.getValue());
-
-            if (hit == true) {
-                hit = false;
-            } else {
-                MyMouseEvents.setActiveColor(activeShape, false);
-                MyMouseEvents.rotateAndResizeShapeCancel(drawingArea);
-            }
         }
     }
 

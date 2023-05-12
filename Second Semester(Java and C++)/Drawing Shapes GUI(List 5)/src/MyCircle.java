@@ -3,7 +3,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class MyCircle extends Circle implements Serializable {
-    private double centerX, centerY, radius, scaleX, scaleY, layoutX, layoutY;
+    private double centerX, centerY, radius, scaleX, scaleY, translateX, translateY;
     private double red, green, blue;
 
     public MyCircle() {
@@ -21,8 +21,8 @@ public class MyCircle extends Circle implements Serializable {
         blue = ((Color)this.getFill()).getBlue();
         scaleX = this.getScaleX();
         scaleY = this.getScaleY();
-        layoutX = this.getLayoutX();
-        layoutY = this.getLayoutY();
+        translateX = this.getTranslateX();
+        translateY = this.getTranslateY();
     }
 
     public void setProperties() {
@@ -32,8 +32,8 @@ public class MyCircle extends Circle implements Serializable {
         this.setScaleX(scaleX);
         this.setScaleY(scaleY);
         this.setFill(Color.color(red, green, blue));
-        this.setLayoutX(layoutX);
-        this.setLayoutY(layoutY);
+        this.setTranslateX(translateX);
+        this.setTranslateY(translateY);
         MyMouseEvents.clickShapeInit(this);
         MyMouseEvents.dragShapeInit(this);
     }
