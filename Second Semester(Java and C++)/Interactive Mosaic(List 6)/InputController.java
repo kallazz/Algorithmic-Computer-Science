@@ -3,19 +3,19 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class InputController {
     @FXML
-    private TextArea rowsTextArea;
+    private TextField rowsTextField;
     @FXML
-    private TextArea columnsTextArea;
+    private TextField columnsTextField;
     @FXML
-    private TextArea speedTextArea;
+    private TextField speedTextField;
     @FXML
-    private TextArea probabilityTextArea;
+    private TextField probabilityTextField;
 
     @FXML
     private Button confirmButton;
@@ -36,19 +36,19 @@ public class InputController {
             public void handle(ActionEvent e) {
                 //Rows and columns textareas
                 try {
-                    rows = Integer.parseInt(rowsTextArea.getText());
-                    columns = Integer.parseInt(columnsTextArea.getText());
-                    if (rows < 0 || rows > 100 || columns < 0 || columns > 100) throw new NumberFormatException();
+                    rows = Integer.parseInt(rowsTextField.getText());
+                    columns = Integer.parseInt(columnsTextField.getText());
+                    if (rows < 0 || rows > 32 || columns < 0 || columns > 32) throw new NumberFormatException();
                 }
                 catch (final NumberFormatException ex) {
-                    alert.setContentText("Rows and columns have to be integers lower than 100!");
+                    alert.setContentText("Rows and columns have to be integers lower than 32!");
                     alert.show();
                     return;
                 }
 
                 //Speed textarea
                 try {
-                    speed = Integer.parseInt(speedTextArea.getText());
+                    speed = Integer.parseInt(speedTextField.getText());
                     if (speed < 500) throw new NumberFormatException();
                 }
                 catch (final NumberFormatException ex) {
@@ -59,7 +59,7 @@ public class InputController {
 
                 //Probability textarea
                 try {
-                    probability = Double.parseDouble(probabilityTextArea.getText());
+                    probability = Double.parseDouble(probabilityTextField.getText());
                     if (probability < 0.0 || probability > 1.0) throw new NumberFormatException();
                 }
                 catch (final NumberFormatException ex) {
@@ -73,6 +73,7 @@ public class InputController {
                 }
                 catch (final Exception ex) {
                     System.out.println("Board window initialization failed");
+                    System.exit(0);
                 }
             }
         });

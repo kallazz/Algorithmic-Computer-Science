@@ -33,7 +33,7 @@
 -->
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -54,10 +54,10 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextArea fx:id="rowsTextArea" prefHeight="200.0" prefWidth="100.0" promptText="Number of rows" />
-                  <TextArea fx:id="columnsTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Number of columns" GridPane.columnIndex="1" />
-                  <TextArea fx:id="speedTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Tile speed" GridPane.rowIndex="1" />
-                  <TextArea fx:id="probabilityTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Tile color change probability" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="rowsTextField" promptText="Number of rows" />
+                  <TextField fx:id="columnsTextField" prefWidth="233.0" promptText="Number of columns" GridPane.columnIndex="1" />
+                  <TextField fx:id="speedTextField" promptText="Tile speed" GridPane.rowIndex="1" />
+                  <TextField fx:id="probabilityTextField" promptText="Tile color change probability" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <Button fx:id="confirmButton" layoutX="291.0" layoutY="264.0" mnemonicParsing="false" text="Confirm" />
