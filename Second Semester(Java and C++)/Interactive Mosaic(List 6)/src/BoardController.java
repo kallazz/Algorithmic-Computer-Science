@@ -8,7 +8,7 @@ public class BoardController {
 
     private int rows;
     private int columns;
-    private int speed;
+    private int delay;
     private double probability;
     private final Object mutex = new Object();
 
@@ -18,7 +18,7 @@ public class BoardController {
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                Tile tile = new Tile(tileWidth, tileHeight, speed, probability, i, j, rows, columns, mutex);
+                Tile tile = new Tile(tileWidth, tileHeight, delay, probability, i, j, rows, columns, mutex);
                 tile.setId(i + "," + j);
                 board.getChildren().add(tile);
             }
@@ -30,10 +30,10 @@ public class BoardController {
         }
     }
 
-    public void setData(int rows, int columns, int speed, double probability) {
+    public void setData(int rows, int columns, int delay, double probability) {
         this.rows = rows;
         this.columns = columns;
-        this.speed = speed;
+        this.delay = delay;
         this.probability = probability;
         myInitialize();
     }

@@ -13,7 +13,7 @@ public class InputController {
     @FXML
     private TextField columnsTextField;
     @FXML
-    private TextField speedTextField;
+    private TextField delayTextField;
     @FXML
     private TextField probabilityTextField;
 
@@ -23,7 +23,7 @@ public class InputController {
     private Stage stage;
     private int rows;
     private int columns;
-    private int speed;
+    private int delay;
     private double probability;
 
     private Alert alert = new Alert(AlertType.WARNING);
@@ -48,11 +48,11 @@ public class InputController {
 
                 //Speed textarea
                 try {
-                    speed = Integer.parseInt(speedTextField.getText());
-                    if (speed < 500) throw new NumberFormatException();
+                    delay = Integer.parseInt(delayTextField.getText());
+                    if (delay < 200) throw new NumberFormatException();
                 }
                 catch (final NumberFormatException ex) {
-                    alert.setContentText("Speed has to be an integer no lower than 500!");
+                    alert.setContentText("Speed has to be an integer no lower than 200!");
                     alert.show();
                     return;
                 }
@@ -69,7 +69,7 @@ public class InputController {
                 }
 
                 try {
-                    new InitBoardGui(stage, rows, columns, speed, probability);
+                    new InitBoardGui(stage, rows, columns, delay, probability);
                 }
                 catch (final Exception ex) {
                     System.out.println("Board window initialization failed");

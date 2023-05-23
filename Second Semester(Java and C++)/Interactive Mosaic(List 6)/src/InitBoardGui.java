@@ -1,5 +1,4 @@
 import java.io.IOException;
-
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +8,13 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class InitBoardGui {
-    public InitBoardGui(Stage stage, int rows, int columns, int speed, double probability) throws IOException {
+    public InitBoardGui(Stage stage, int rows, int columns, int delay, double probability) throws IOException {
         //Loading FXML
         final FXMLLoader loader = new FXMLLoader(getClass().getResource("BoardLayout.fxml")); //throws exceptions
         final Parent root = loader.load();
 
         BoardController boardController = loader.getController();
-        boardController.setData(rows, columns, speed, probability);
+        boardController.setData(rows, columns, delay, probability);
 
         //Stage setup
         stage.setTitle("Interactive Mosaic");

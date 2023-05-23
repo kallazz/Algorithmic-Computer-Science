@@ -56,7 +56,7 @@
                <children>
                   <TextField fx:id="rowsTextField" promptText="Number of rows" />
                   <TextField fx:id="columnsTextField" prefWidth="233.0" promptText="Number of columns" GridPane.columnIndex="1" />
-                  <TextField fx:id="speedTextField" promptText="Tile speed" GridPane.rowIndex="1" />
+                  <TextField fx:id="delayTextField" promptText="Delay between color changes" GridPane.rowIndex="1" />
                   <TextField fx:id="probabilityTextField" promptText="Tile color change probability" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
