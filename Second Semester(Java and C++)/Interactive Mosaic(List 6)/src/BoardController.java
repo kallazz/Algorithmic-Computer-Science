@@ -15,8 +15,6 @@ public class BoardController {
     private void myInitialize() {
         final double tileWidth = Math.floor(640.0 / columns);
         final double tileHeight = Math.floor(400.0 / rows);
-        System.out.println(tileWidth);
-        System.out.println(tileHeight);
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
