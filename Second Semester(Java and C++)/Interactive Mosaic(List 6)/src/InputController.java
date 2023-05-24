@@ -49,10 +49,10 @@ public class InputController {
                 //Speed textarea
                 try {
                     delay = Integer.parseInt(delayTextField.getText());
-                    if (delay < 200) throw new NumberFormatException();
+                    if (delay < 10) throw new NumberFormatException();
                 }
                 catch (final NumberFormatException ex) {
-                    alert.setContentText("Speed has to be an integer no lower than 200!");
+                    alert.setContentText("Speed has to be an integer no lower than 10!");
                     alert.show();
                     return;
                 }

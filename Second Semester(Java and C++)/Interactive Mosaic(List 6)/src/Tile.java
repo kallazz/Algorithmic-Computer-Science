@@ -57,7 +57,7 @@ public class Tile extends Rectangle implements Runnable {
      */
     private boolean active = true;
 
-
+    
     //***** Methods *****
     /**
      * Creates a Tile object and sets mouse event for it to allow user to change whether it's active
@@ -104,9 +104,9 @@ public class Tile extends Rectangle implements Runnable {
     public void run() {
         while (true) {
             try {
-                synchronized (this) {
+                synchronized (Tile.this) {
                     while (!active) {
-                        wait();
+                        Tile.this.wait();
                     }
                 }
 
@@ -117,11 +117,15 @@ public class Tile extends Rectangle implements Runnable {
             }
 
             if (RNG.getRandomNumber() <= probability) {
+                synchronized (mutex) {
                     setColor(RNG.getRandomColor());
+                }
             } 
             else {
+                synchronized (mutex) {
                     Color newColor = getNewColor();
                     setColor(newColor);
+                }
             }
         }
     }
@@ -132,11 +136,7 @@ public class Tile extends Rectangle implements Runnable {
      * @param color new color to set for the tile
      */
     private void setColor(Color color) {
-        synchronized (mutex) {
-            System.out.println("Start: #" + x + "," + y);
-            if (active) Platform.runLater(() -> setFill(color));
-            System.out.println("End: #" + x + "," + y);
-        }
+        if (active) Platform.runLater(() -> setFill(color));
     }
 
     /**
@@ -145,11 +145,7 @@ public class Tile extends Rectangle implements Runnable {
      * @return color of this tile
      */
     public Color getColor() {
-        synchronized (mutex) {
-            System.out.println("Start: #" + x + "," + y);
-            System.out.println("End: #" + x + "," + y);
-            return (Color) getFill();
-        }
+        return (Color) getFill();
     }
 
     /**
@@ -172,12 +168,14 @@ public class Tile extends Rectangle implements Runnable {
         int activeNeighbours = 0;
         Color currentColor;
         for (Tile tile : tiles) {
-            if (tile.isActive()) {
-                currentColor = tile.getColor();
-                red += currentColor.getRed();
-                blue+= currentColor.getBlue();
-                green += currentColor.getGreen();
-                activeNeighbours++;
+            synchronized (tile) {
+                if (tile.isActive()) {
+                    currentColor = tile.getColor();
+                    red += currentColor.getRed();
+                    blue+= currentColor.getBlue();
+                    green += currentColor.getGreen();
+                    activeNeighbours++;
+                }
             }
         }
 
@@ -242,12 +240,14 @@ public class Tile extends Rectangle implements Runnable {
      * Sets this tile as active/not active. When it's not active it's completly white.
      * If it wasn't active before it will be able to work again(thanks to notify)
      */
-    private synchronized void setActive() {
-        active = !active;
-        if (active == true) {
-            setOpacity(1); 
-            notify();
+    private void setActive() {
+        synchronized (Tile.this) {
+            active = !active;
+            if (active == true) {
+                setOpacity(1); 
+                Tile.this.notify();
+            }
+            else setOpacity(0);
         }
-        else setOpacity(0);
     }
 }
