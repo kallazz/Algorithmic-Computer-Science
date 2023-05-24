@@ -73,6 +73,7 @@ public class InputController {
                 }
                 catch (final Exception ex) {
                     System.out.println("Board window initialization failed");
+                    ex.printStackTrace();
                     System.exit(0);
                 }
             }
