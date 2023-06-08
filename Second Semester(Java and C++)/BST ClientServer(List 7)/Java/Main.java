@@ -9,7 +9,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            new GuiForTypeInit(stage);
+            new InitChooseTypeGUI(stage);
         }
         catch (final Exception ex) {
             System.out.println("GUI init failed!");
