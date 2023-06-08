@@ -1,5 +1,6 @@
 public class BST<T extends Comparable<T>> {
     Node root = null;
+    private String printedTree;
    
     // This method mainly calls searchRec() and returns true if the key is in the tree, otherwise false
     public boolean search(T key) {
@@ -19,10 +20,11 @@ public class BST<T extends Comparable<T>> {
         root = deleteRec(root, key); 
     }
 
-    // This method calls printInorder() to list all elements of the tree
-    public void print() {
+    // This method calls printInorder() to list all elements of the tree in a string
+    public String print() {
+        printedTree = "";
         printInorder(root);
-        System.out.println();
+        return printedTree;
     }
 
 
@@ -117,7 +119,7 @@ public class BST<T extends Comparable<T>> {
         printInorder(root.left);
  
         // Visit node
-        System.out.print(root.value + " ");
+        printedTree += root.value + " ";
  
         // Traverse right subtree
         printInorder(root.right);

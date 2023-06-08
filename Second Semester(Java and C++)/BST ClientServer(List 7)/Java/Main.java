@@ -1,32 +1,20 @@
-import java.util.Scanner;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application {
     public static void main(String[] args) {
-        //Choosing the type of BST
-        System.out.println("Choose the type of this BST by writing its name");
-        System.out.println("Write integer/double/string:");
+        launch(args);
+    }
 
-        Scanner scanner = new Scanner(System.in);
-        String type;
-
-        while (true) {
-            type = scanner.nextLine();
-
-            if (type.equalsIgnoreCase("integer")) {
-                final ConsoleHandler<Integer> handler = new ConsoleHandler<>(new IntegerParser());
-                handler.run();
-            }
-            else if (type.equalsIgnoreCase("double")) {
-                final ConsoleHandler<Double> handler = new ConsoleHandler<>(new DoubleParser());
-                handler.run();
-            }
-            else if (type.equalsIgnoreCase("string")) {
-                final ConsoleHandler<String> handler = new ConsoleHandler<>(new StringParser());
-                handler.run();
-            }
-            else {
-                System.out.println("Type " + type + " is not accepted. Choose integer/double/string");
-            }
+    @Override
+    public void start(Stage stage) {
+        try {
+            new GuiForTypeInit(stage);
+        }
+        catch (final Exception ex) {
+            System.out.println("GUI init failed!");
+            ex.printStackTrace();
+            System.exit(0);
         }
     }
 }
