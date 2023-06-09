@@ -12,11 +12,11 @@ public class MultiThreadInit {
     public void startInit() {
 
         try {
-             //Odbieranie od klienta
+             //For receiving data from the client
             InputStream inputStream = socket.getInputStream();
             BufferedReader input = new BufferedReader(new InputStreamReader(inputStream));
     
-            //Wysylanie do klienta
+            //For sending data to the client
             OutputStream outputStream = socket.getOutputStream();
             PrintWriter output = new PrintWriter(outputStream, true);
 
@@ -27,11 +27,11 @@ public class MultiThreadInit {
                 thread.start();
             }
             else if (type.equals("Double")) {
-                MultiThread<Integer> thread = new MultiThread<>(new DoubleParser(), input, output);
+                MultiThread<Double> thread = new MultiThread<>(new DoubleParser(), input, output);
                 thread.start();
             }
             else if (type.equals("String")) {
-                MultiThread<Integer> thread = new MultiThread<>(new StringParser(), input, output);
+                MultiThread<String> thread = new MultiThread<>(new StringParser(), input, output);
                 thread.start();
             }
 
