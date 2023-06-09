@@ -2,15 +2,15 @@ import java.io.*;
 import java.net.*;
  
 
-public class MultiThreadInit {
+public class MultiThreadInit implements Runnable {
     private Socket socket;
  
     public MultiThreadInit(Socket socket) {
         this.socket = socket;
     }
  
-    public void startInit() {
-
+    @Override
+    public void run() {
         try {
              //For receiving data from the client
             InputStream inputStream = socket.getInputStream();

@@ -14,7 +14,7 @@ public class MultiServerThread {
                 Socket socket = serverSocket.accept();
                 System.out.println("New client connected");
  
-                new MultiThreadInit(socket).startInit();
+                new Thread(new MultiThreadInit(socket)).start();
             }
  
         } catch (IOException ex) {

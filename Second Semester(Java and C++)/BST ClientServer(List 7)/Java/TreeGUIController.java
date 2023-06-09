@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -32,12 +31,10 @@ public class TreeGUIController<T extends Comparable<T>> {
     private Socket socket;
     private PrintWriter output;
     private BufferedReader input;
-    private String type;
 
     //Set the parser in the constructor, create new client
     public TreeGUIController(Parser parser, String type) {
         this.parser = parser;
-        this.type = type;
 
         try {
             //Create a socket for the new client
@@ -89,7 +86,7 @@ public class TreeGUIController<T extends Comparable<T>> {
         if (checkArguments(1, userInput)) {
             output.println("search");
             output.println(userInput);
-            if (getAnswerFromServer() == "true")  showAlert(userInput + " IS in the tree!", AlertType.INFORMATION);
+            if (getAnswerFromServer().equals("true"))  showAlert(userInput + " IS in the tree!", AlertType.INFORMATION);
             else showAlert(userInput + " IS NOT in the tree!", AlertType.INFORMATION);
         }
     }
@@ -104,7 +101,6 @@ public class TreeGUIController<T extends Comparable<T>> {
     private void exitProgram() {
         output.println("exit");
         try {
-            System.out.println("sup");
             if (input.readLine().equals("OK")) {
                 socket.close();
                 System.exit(0);
