@@ -27,15 +27,12 @@ public class TreeGUIController<T extends Comparable<T>> {
     @FXML
     private Label drawingArea;
 
-    private Parser parser; 
     private Socket socket;
     private PrintWriter output;
     private BufferedReader input;
 
-    //Set the parser in the constructor, create new client
+    //Create streams for communication with the server
     public TreeGUIController(Parser parser, String type) {
-        this.parser = parser;
-
         try {
             //Create a socket for the new client
             Socket socket = new Socket("localhost", 4444); 
@@ -53,99 +50,98 @@ public class TreeGUIController<T extends Comparable<T>> {
         }
         catch (final UnknownHostException e) {
             System.out.println("Server not found: " + e.getMessage());
+            System.exit(0);
     
         } 
         catch (final IOException ex) {
             System.out.println("I/O error: " + ex.getMessage());
+            System.exit(0);
         }
     }
 
+    //***BUTTONS*** 
     @FXML
     private void treeInsert() {
         String userInput = argumentField.getText();
-        if (checkArguments(1, userInput)) {
+        if (checkArguments(userInput)) {
             output.println("insert");
             output.println(userInput);
-            showAlert("Insert successfull!", AlertType.INFORMATION);
+
+            drawingArea.setText(getAnswerFromServer());
         }
     }
 
     @FXML
     private void treeDelete() {
         String userInput = argumentField.getText();
-        if (checkArguments(1, userInput)) {
+        if (checkArguments(userInput)) {
             output.println("delete");
             output.println(userInput);
-            showAlert("Delete successfull!", AlertType.INFORMATION);
+
+            drawingArea.setText(getAnswerFromServer());
         }
     }
 
     @FXML
     private void treeSearch() {
         String userInput = argumentField.getText();
-        if (checkArguments(1, userInput)) {
+        if (checkArguments(userInput)) {
             output.println("search");
             output.println(userInput);
-            if (getAnswerFromServer().equals("true"))  showAlert(userInput + " IS in the tree!", AlertType.INFORMATION);
-            else showAlert(userInput + " IS NOT in the tree!", AlertType.INFORMATION);
+            String answer = getAnswerFromServer();
+
+            if (answer.equals("true"))  showAlert(userInput + " IS in the tree!", AlertType.INFORMATION);
+            else if (answer.equals("false")) showAlert(userInput + " IS NOT in the tree!", AlertType.INFORMATION);
         }
     }
 
     @FXML
     private void treePrint() {
         output.println("print");
+
         drawingArea.setText(getAnswerFromServer());
     }
 
-    @FXML
-    private void exitProgram() {
-        output.println("exit");
-        try {
-            if (input.readLine().equals("OK")) {
-                socket.close();
-                System.exit(0);
-            }
-        }
-        catch (final IOException ex) {
-            System.out.println("FAIL");
-        }
-    }
 
-    //checks if arguments are correct
-    private boolean checkArguments(int n, String userInput) {
-        drawingArea.setText(null);
+    //***Local methods***
+    private boolean checkArguments(String userInput) {
+        drawingArea.setText(null); //clean the drawingArea
 
         //check the number of arguments
-        if (userInput.split(" ").length != n) {
-            showAlert("Expected " + n + " arguments!", AlertType.WARNING);
-            return false;
-        }
-
-        //check if they are of the apropriate type
-        try {
-            parser.parse(userInput);
-        }
-        catch (final NumberFormatException ex) {
-            showAlert(userInput + " is not of the type you chose!", AlertType.WARNING);
+        if (userInput.split(" ").length != 1) {
+            showAlert("Expected 1 argument!", AlertType.WARNING);
             return false;
         }
 
         return true;
     }
 
-    void showAlert(String content, AlertType type) {
-        Alert infoAlert = new Alert(type);
-        infoAlert.setContentText(content);
-        infoAlert.showAndWait();
-    }
-
-    String getAnswerFromServer() {
+    private String getAnswerFromServer() {
         try {
             String answer = input.readLine();
+            if (answer.equals("wrong_type")) {
+                showAlert("Wrong data type!", AlertType.WARNING);
+                return "";
+            }
+
             return answer;
         }
         catch (final IOException ex) {
-            return "ERROR";
+            System.out.println("I/O error while getting answer from server");
+            System.exit(0);
+            return "I/O ERROR";
         }
+    }
+
+    @FXML
+    private void exitProgram() {
+        output.println("exit");
+        System.exit(0);
+    }
+
+    private void showAlert(String content, AlertType type) {
+        Alert infoAlert = new Alert(type);
+        infoAlert.setContentText(content);
+        infoAlert.showAndWait();
     }
 }

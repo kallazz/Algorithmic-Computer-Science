@@ -2,7 +2,7 @@ import java.io.*;
 import java.net.*;
  
 
-public class MultiServerThread {
+public class Server {
  
     public static void main(String[] args) {
 
@@ -14,7 +14,7 @@ public class MultiServerThread {
                 Socket socket = serverSocket.accept();
                 System.out.println("New client connected");
  
-                new Thread(new MultiThreadInit(socket)).start();
+                new ClientThread(socket).start();
             }
  
         } catch (IOException ex) {
