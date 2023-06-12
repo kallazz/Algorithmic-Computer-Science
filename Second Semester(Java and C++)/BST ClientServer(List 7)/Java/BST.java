@@ -1,5 +1,5 @@
 public class BST<T extends Comparable<T>> {
-    Node root = null;
+    private Node root = null;
     private String printedTree;
    
     // This method mainly calls searchRec() and returns true if the key is in the tree, otherwise false
@@ -127,7 +127,7 @@ public class BST<T extends Comparable<T>> {
 
     //The structure of every node
     private class Node {
-        private Node left, right; //up
+        private Node left, right;
         private T value;
 
         public Node(T value) {

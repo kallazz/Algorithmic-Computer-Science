@@ -6,28 +6,16 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
 public class TreeGUIController<T extends Comparable<T>> {
     @FXML
-    private Button insertButton;
-    @FXML
-    private Button deleteButton;
-    @FXML
-    private Button searchButton;
-    @FXML
-    private Button printButton;
-    @FXML
-    private Button exitButton;
-    @FXML
     private TextField argumentField;
     @FXML
     private Label drawingArea;
 
-    private Socket socket;
     private PrintWriter output;
     private BufferedReader input;
 
@@ -36,7 +24,6 @@ public class TreeGUIController<T extends Comparable<T>> {
         try {
             //Create a socket for the new client
             Socket socket = new Socket("localhost", 4444); 
-            this.socket = socket;
     
             //For sending data to the server
             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
@@ -102,6 +89,12 @@ public class TreeGUIController<T extends Comparable<T>> {
         drawingArea.setText(getAnswerFromServer());
     }
 
+    @FXML
+    private void exitProgram() {
+        output.println("exit");
+        System.exit(0);
+    }
+
 
     //***Local methods***
     private boolean checkArguments(String userInput) {
@@ -131,12 +124,6 @@ public class TreeGUIController<T extends Comparable<T>> {
             System.exit(0);
             return "I/O ERROR";
         }
-    }
-
-    @FXML
-    private void exitProgram() {
-        output.println("exit");
-        System.exit(0);
     }
 
     private void showAlert(String content, AlertType type) {
