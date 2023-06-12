@@ -48,6 +48,8 @@ public:
         destroyTree(root);
     }
 
+    //NOTE: BST functions are based on functions from GeeksForGeeks
+    
     // A utility function to insert
     // a new node with given key in BST
     Node* insert(Node* node, T key) {

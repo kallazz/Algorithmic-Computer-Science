@@ -2,6 +2,8 @@ public class BST<T extends Comparable<T>> {
     private Node root = null;
     private String printedTree;
    
+    //NOTE: BST functions are based on functions from GeeksForGeeks
+    
     // This method mainly calls searchRec() and returns true if the key is in the tree, otherwise false
     public boolean search(T key) {
         if (searchRec(root, key) != null) {
