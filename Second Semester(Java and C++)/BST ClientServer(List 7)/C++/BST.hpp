@@ -9,22 +9,26 @@ private:
     private:
         Node* left;
         Node* right;
-        T value;
+        T key;
 
     public:
         // Constructor for Node
-        Node(T value) {
-            this->value = value;
+        Node(T key) {
+            this->getKey() = key;
             left = nullptr;
             right = nullptr;
         }
 
-        Node* getLeftNode() {
+        Node*& getLeftNode() {
             return left;
         }
 
-        Node* getRightNode() {
+        Node*& getRightNode() {
             return right;
+        }
+
+        T& getKey() {
+            return key;
         }
     };
 
@@ -36,18 +40,6 @@ private:
         }
     }
 
-    Node* root; // The root of this BST
-public:
-    // Constructor for BST
-    BST() {
-        root = nullptr;
-    }
-
-    // Destructor for BST
-    ~BST() {
-        destroyTree(root);
-    }
-
     //NOTE: BST functions are based on functions from GeeksForGeeks
     
     // A utility function to insert
@@ -55,30 +47,30 @@ public:
     Node* insert(Node* node, T key) {
         // If the tree is empty, return a new node
         if (node == nullptr)
-            return BST<T>::Node(key);
+            return new BST<T>::Node(key);
     
         // Otherwise, recur down the tree
-        if (key < node->key)
-            node->left = insert(node->left, key);
-        else if (key > node->key)
-            node->right = insert(node->right, key);
+        if (key < node->getKey())
+            node->getLeftNode() = insert(node->getLeftNode(), key);
+        else if (key > node->getKey())
+            node->getRightNode() = insert(node->getRightNode(), key);
     
         // Return the (unchanged) node pointer
         return node;
     }
 
     // Utility function to search a key in a BST
-    Node* search(struct Node* root, T key) {
+    Node* search(Node* root, T key) {
         // Base Cases: root is null or key is present at root
-        if (root == nullptr || root->key == key)
+        if (root == nullptr || root->getKey() == key)
             return root;
     
         // Key is greater than root's key
-        if (root->key < key)
-            return search(root->right, key);
+        if (root->getKey() < key)
+            return search(root->getRightNode(), key);
     
         // Key is smaller than root's key
-        return search(root->left, key);
+        return search(root->getLeftNode(), key);
     }
 
     // Given a binary search tree and a key, this function
@@ -90,12 +82,12 @@ public:
     
         // Recursive calls for ancestors of
         // node to be deleted
-        if (root->key > k) {
-            root->left = deleteNode(root->left, k);
+        if (root->getKey() > k) {
+            root->getLeftNode() = deleteNode(root->getLeftNode(), k);
             return root;
         }
-        else if (root->key < k) {
-            root->right = deleteNode(root->right, k);
+        else if (root->getKey() < k) {
+            root->getRightNode() = deleteNode(root->getRightNode(), k);
             return root;
         }
     
@@ -103,13 +95,13 @@ public:
         // to be deleted.
     
         // If one of the children is empty
-        if (root->left == nullptr) {
-            Node* temp = root->right;
+        if (root->getLeftNode() == nullptr) {
+            Node* temp = root->getRightNode();
             delete root;
             return temp;
         }
-        else if (root->right == nullptr) {
-            Node* temp = root->left;
+        else if (root->getRightNode() == nullptr) {
+            Node* temp = root->getLeftNode();
             delete root;
             return temp;
         }
@@ -119,10 +111,10 @@ public:
             Node* succParent = root;
     
             // Find successor
-            Node* succ = root->right;
-            while (succ->left != nullptr) {
+            Node* succ = root->getRightNode();
+            while (succ->getLeftNode() != nullptr) {
                 succParent = succ;
-                succ = succ->left;
+                succ = succ->getLeftNode();
             }
     
             // Delete successor.  Since successor
@@ -130,14 +122,14 @@ public:
             // we can safely make successor's right
             // right child as left of its parent.
             // If there is no succ, then assign
-            // succ->right to succParent->right
+            // succ->getRightNode() to succParent->getRightNode()
             if (succParent != root)
-                succParent->left = succ->right;
+                succParent->getLeftNode() = succ->getRightNode();
             else
-                succParent->right = succ->right;
+                succParent->getRightNode() = succ->getRightNode();
     
             // Copy Successor Data to root
-            root->key = succ->key;
+            root->getKey() = succ->getKey();
     
             // Delete Successor and return root
             delete succ;
@@ -148,10 +140,41 @@ public:
     // A utility function to do inorder traversal of BST
     void inorder(Node* root) {
         if (root != nullptr) {
-            inorder(root->left);
-            printf("%d ", root->key);
-            inorder(root->right);
+            inorder(root->getLeftNode());
+            std::cout << root->getKey() << " ";
+            inorder(root->getRightNode());
         }
+    }
+
+    Node* root; // The root of this BST
+
+public:
+    // Constructor for BST
+    BST() {
+        root = nullptr;
+    }
+
+    // Destructor for BST
+    ~BST() {
+        destroyTree(root);
+    }
+
+    void insertValue(T value) {
+        root = insert(root, value);
+    }
+
+    void deleteValue(T value) {
+        root = deleteNode(root, value);
+    }
+
+    bool searchValue(T value) {
+        if (search(root, value) == nullptr) return false;
+        return true;
+    }
+
+    void printTree() {
+        inorder(root);
+        std::cout << '\n';
     }
 };
 
