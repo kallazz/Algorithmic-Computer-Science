@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-public class TreeGUIController<T extends Comparable<T>> {
+public class TreeGUIController {
     @FXML
     private TextField argumentField;
     @FXML
@@ -19,11 +19,15 @@ public class TreeGUIController<T extends Comparable<T>> {
     private PrintWriter output;
     private BufferedReader input;
 
-    //Create streams for communication with the server
-    public TreeGUIController(Parser parser, String type) {
+    /**
+     * @brief this method creates a socket for this client, which should be accepted by the server.
+     *        It also creates input and output streams for communicating with the server. 
+     *        At last it sends info about type to the server so that it can create an appropriate tree.
+     */
+    public TreeGUIController(String type) {
         try {
             //Create a socket for the new client
-            Socket socket = new Socket("localhost", 4444); 
+            Socket socket = new Socket("localhost", 4444); //The socket is closed by the server
     
             //For sending data to the server
             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
@@ -97,10 +101,16 @@ public class TreeGUIController<T extends Comparable<T>> {
 
 
     //***Local methods***
+    /**
+     * @brief cleans the drawingArea and 
+     *        checks if user inputed only 1 argument
+     * 
+     * @param userInput the text user wrote in the textfield
+     * @return true for 1 argument, false for any other number
+     */
     private boolean checkArguments(String userInput) {
-        drawingArea.setText(null); //clean the drawingArea
+        drawingArea.setText(null);
 
-        //check the number of arguments
         if (userInput.split(" ").length != 1) {
             showAlert("Expected 1 argument!", AlertType.WARNING);
             return false;
@@ -109,6 +119,13 @@ public class TreeGUIController<T extends Comparable<T>> {
         return true;
     }
 
+    /**
+     * @brief reads an answer sent by the server.
+     *        If the server detected a wrong type, this method will show a warning window.
+     *        If there is an I/O error, this program will be terminated.
+     * 
+     * @return returns the answer from the server
+     */
     private String getAnswerFromServer() {
         try {
             String answer = input.readLine();
@@ -126,6 +143,12 @@ public class TreeGUIController<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * @brief displays an alert
+     * 
+     * @param content text displayed in the content section of the alert
+     * @param type type of the alert
+     */
     private void showAlert(String content, AlertType type) {
         Alert infoAlert = new Alert(type);
         infoAlert.setContentText(content);

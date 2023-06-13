@@ -36,8 +36,6 @@ public class ClientThread extends Thread {
                 treeRequests.handleRequests();
             }
             
-            System.out.println("Client " + id + " disconnected"); 
-
             //Close the socket
             try {
                 socket.close();
@@ -45,6 +43,8 @@ public class ClientThread extends Thread {
                 System.out.println("Error while closing socket: " + ex.getMessage());
                 ex.printStackTrace();
             }
+
+            System.out.println("Client " + id + " disconnected"); 
             
             //Stop the thread
             this.interrupt(); 
