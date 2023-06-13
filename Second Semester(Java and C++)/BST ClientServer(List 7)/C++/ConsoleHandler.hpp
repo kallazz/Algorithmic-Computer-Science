@@ -2,39 +2,14 @@
 #define CONSOLE_HANDLER_HPP
 
 #include "BST.hpp"
+#include "StringOperations.hpp"
 
 #include <iostream>
 #include <sstream>
-#include <vector>
 
 template <typename T>
 class ConsoleHandler {
 private:
-    unsigned int countWords(const std::string& s) {
-        std::stringstream stream(s);
-        unsigned int count = 0;
-        std::string word;
-
-        while (stream >> word) count++;
-
-        return count;
-    }
-
-    T verifyInput(std::stringstream& stream, unsigned int preferredWords, unsigned int actualWords) noexcept(false) {
-        if (preferredWords != actualWords)
-            throw std::invalid_argument(std::to_string(actualWords - 1) + 
-            " is not the apropriate number of arguments for this action!\n");
-        
-        char c;
-        T typeValue;
-
-        stream >> typeValue;
-        if (stream.fail() || stream.get(c))
-            throw std::invalid_argument("Wrong type!\n");
-
-        return typeValue;
-    }
-
     BST<T> tree;
     
 public:
@@ -48,28 +23,42 @@ public:
         while (true) {
             try {
                 std::getline(std::cin, input); //get input from user
-                wordCount = countWords(input);
+                wordCount = StringOperations::countWords(input);
 
                 if (wordCount < 1 || wordCount > 2) 
-                    throw std::invalid_argument("You can input max 2 words, not " + std::to_string(wordCount) + '\n');
+                    throw std::invalid_argument("You can input max 2 words, not " + std::to_string(wordCount));
                 
                 std::stringstream inputStream(input);
                 std::string action;
+                std::string argument = "";
+
                 inputStream >> action;
+                if (wordCount == 2) inputStream >> argument;
 
                 if (action == "insert") {
-                    tree.insertValue(verifyInput(inputStream, 2, wordCount));
+                    if (wordCount != 2)
+                        throw std::invalid_argument("Insert requires 2 arguments, not " + std::to_string(wordCount));
+
+                    tree.insertValue(StringOperations::stringToVal<T>(argument));
                 }
                 else if (action == "delete") {
-                    tree.deleteValue(verifyInput(inputStream, 2, wordCount));
+                    if (wordCount != 2)
+                        throw std::invalid_argument("Delete requires 2 arguments, not " + std::to_string(wordCount));
+
+                    tree.deleteValue(StringOperations::stringToVal<T>(argument));
                 }
                 else if (action == "search") {
-                    if (tree.searchValue(verifyInput(inputStream, 2, wordCount)) == true) std::cout << "The element IS in the tree\n";
+                    if (wordCount != 2)
+                        throw std::invalid_argument("Search requires 2 arguments, not " + std::to_string(wordCount));
+                        
+                    if (tree.searchValue(StringOperations::stringToVal<T>(argument)) == true) std::cout << "The element IS in the tree\n";
                     else std::cout << "The element IS NOT in the tree\n";
                 }
                 else if (action == "print") {
-                    if (wordCount != 1) std::cout << "Print requires only 1 argument, not " << wordCount << '\n';
-                    else tree.printTree();
+                    if (wordCount != 1) 
+                        throw std::invalid_argument("Print requires only 1 argument, not " + std::to_string(wordCount));
+                    
+                    tree.printTree();
                 }
                 else if (action == "exit") {
                     return;
@@ -79,7 +68,7 @@ public:
                 }
             }
             catch (const std::invalid_argument &e) {
-                std::cout << e.what();
+                std::cout << e.what() << '\n';
             }
         }
     }
